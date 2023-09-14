@@ -75,6 +75,11 @@ class MainActivity : Activity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
+        val dev = TextView(this)
+        dev.text = "\n© 2023 Hyeon.js, All rights reserved.\n"
+        dev.textSize = 12f
+        dev.gravity = Gravity.CENTER
+        layout.addView(dev)
         val pad = dip2px(16)
         layout.setPadding(pad, pad, pad, pad)
         val scroll = ScrollView(this)
