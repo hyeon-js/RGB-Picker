@@ -3,6 +3,7 @@ package com.hyeonjs.rgbpicker
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.SeekBar
@@ -17,8 +18,9 @@ class MainActivity : Activity() {
 
         val txt = TextView(this)
         txt.text = "미리보기"
-        txt.textSize = 24f
+        txt.textSize = 32f
         txt.setTextColor(Color.BLACK)
+        txt.gravity = Gravity.CENTER
         layout.addView(txt)
 
         val rt = TextView(this)
@@ -29,22 +31,22 @@ class MainActivity : Activity() {
         layout.addView(rb)
 
         val gt = TextView(this)
-        gt.text = "R: 0"
+        gt.text = "\nG: 0"
         layout.addView(gt)
         val gb = SeekBar(this)
         gb.max = 255
         layout.addView(gb)
 
         val bt = TextView(this)
-        bt.text = "R: 0"
+        bt.text = "\nB: 0"
         layout.addView(bt)
         val bb = SeekBar(this)
         bb.max = 255
         layout.addView(bb)
 
-        gb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        rb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                gt.text = "R: $progress"
+                rt.text = "R: $progress"
                 txt.setTextColor(Color.argb(255, rb.progress, gb.progress, bb.progress))
             }
 
@@ -52,9 +54,9 @@ class MainActivity : Activity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
-        rb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        gb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                rt.text = "G: $progress"
+                gt.text = "\nG: $progress"
                 txt.setTextColor(Color.argb(255, rb.progress, gb.progress, bb.progress))
             }
 
@@ -64,7 +66,7 @@ class MainActivity : Activity() {
         })
         bb.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                bt.text = "B: $progress"
+                bt.text = "\nB: $progress"
                 txt.setTextColor(Color.argb(255, rb.progress, gb.progress, bb.progress))
             }
 
@@ -73,9 +75,14 @@ class MainActivity : Activity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         })
 
+        val pad = dip2px(16)
+        layout.setPadding(pad, pad, pad, pad)
         val scroll = ScrollView(this)
         scroll.addView(layout)
         scroll.setBackgroundColor(Color.WHITE)
         setContentView(scroll)
     }
+
+    fun dip2px(dips: Int) = Math.ceil((dips * resources.displayMetrics.density).toDouble()).toInt()
+
 }
